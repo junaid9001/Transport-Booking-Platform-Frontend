@@ -13,17 +13,35 @@ import {
 } from 'lucide-react';
 import AuthModal from '../ui/AuthModal';
 import { useAuthStore } from '@/lib/store';
+import { api } from '@/lib/axios';
 
 export default function Navbar() {
   const [modalConfig, setModalConfig] = useState({ isOpen: false, view: 'login' });
   const [isScrolled, setIsScrolled] = useState(false);
   
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, logout } = useAuthStore();
 
   const openLogin = () => setModalConfig({ isOpen: true, view: 'login' });
   const openRegister = () => setModalConfig({ isOpen: true, view: 'register' });
   const closeModal = () => setModalConfig({ ...modalConfig, isOpen: false });
 
+  const handleLogout = async () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    
+    if (!confirmLogout) return;
+
+    try {
+      await api.post('/auth/logout'); 
+      
+      window.alert("You have been successfully logged out!");
+      
+    } catch (error) {
+      console.error("Logout failed", error);
+      window.alert("An error occurred while logging out.");
+    } finally {
+      logout(); 
+    }
+  };
   // Handle Scroll Effect
   useEffect(() => {
     const handleScroll = () => {
@@ -42,15 +60,7 @@ export default function Navbar() {
     { name: 'Taxis', href: '/taxi', icon: Car },
   ];
 
-  const handleLogout = async () => {
-    try {
-      await api.post('/auth/logout'); // Clears the HttpOnly cookie in the browser
-    } catch (error) {
-      console.error("Logout failed", error);
-    } finally {
-      logout(); // Clears Zustand state and UI
-    }
-  };
+  
 
   return (
     <>
