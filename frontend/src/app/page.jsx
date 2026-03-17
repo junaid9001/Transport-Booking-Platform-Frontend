@@ -46,7 +46,7 @@ export default function LandingPage() {
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [showQuickReplies, setShowQuickReplies] = useState(true);
   const [showActionButtons, setShowActionButtons] = useState(false);
-  const chatEndRef = useRef(null);
+  const chatContainerRef = useRef(null); // Changed to container ref
 
   // Screen resize & Background interval
   useEffect(() => {
@@ -57,10 +57,13 @@ export default function LandingPage() {
     return () => { clearInterval(timer); window.removeEventListener('resize', handleResize); };
   }, []);
 
-  // FIX: Only auto-scroll if the user has actually interacted with the chat!
+  // FIX: Scroll ONLY the chat container, not the whole page!
   useEffect(() => {
-    if (chatMessages.length > 1 || isBotTyping) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatContainerRef.current && (chatMessages.length > 1 || isBotTyping)) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }, [chatMessages, isBotTyping]);
 
@@ -227,7 +230,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* --- TRENDING OFFERS (Stunning 3D Cards) --- */}
+      {/* --- TRENDING OFFERS --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative z-20">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div className="flex items-center gap-4">
@@ -242,14 +245,13 @@ export default function LandingPage() {
           <button className="hidden md:block text-emerald-600 font-bold hover:text-emerald-700 transition-colors">View All Deals →</button>
         </div>
 
-        {/* CHANGED: Removed flex/scroll classes, changed to a pure responsive grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 perspective-1000">
+        {/* FIX: Removed buggy 3D perspective, changed to clean floating cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {offers.map((offer, i) => (
             <motion.div 
               key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.03, rotateX: 2, rotateY: -2, zIndex: 10 }}
-              // CHANGED: Removed min-w-[300px] and snap-start so it fits the grid perfectly
-              className="relative rounded-[2rem] overflow-hidden shadow-xl hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] h-56 md:h-64 cursor-pointer group bg-slate-900 transition-all duration-300 transform-gpu"
+              whileHover={{ scale: 1.03, y: -8, zIndex: 10 }}
+              className="relative rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl h-56 md:h-64 cursor-pointer group bg-slate-900 transition-all duration-300"
             >
               <img src={offer.img} alt={offer.title} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent p-6 md:p-8 flex flex-col justify-end">
@@ -330,8 +332,8 @@ export default function LandingPage() {
                     <MoreVertical size={20} className="text-white/80" />
                   </div>
                   
-                  {/* Chat Area (Scrollable) */}
-                  <div className="flex-1 p-3 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] overflow-y-auto flex flex-col gap-3 pb-6 hide-scrollbar relative">
+                  {/* Chat Area (Scrollable) - FIX: Attached container ref */}
+                  <div ref={chatContainerRef} className="flex-1 p-3 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] overflow-y-auto flex flex-col gap-3 pb-6 hide-scrollbar relative">
                     <AnimatePresence>
                       {chatMessages.map((msg) => (
                         <motion.div 
@@ -377,7 +379,6 @@ export default function LandingPage() {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                    <div ref={chatEndRef} />
                   </div>
 
                   {/* Quick Prompts */}
@@ -391,7 +392,7 @@ export default function LandingPage() {
                   </AnimatePresence>
 
                   {/* Interactive Input Area */}
-                  <div className="bg-[#f0f0f0] p-2 flex items-center gap-2 z-30">
+                  <div className="bg-[#f0f0f0] p-2 flex items-center gap-2 z-30 border-t border-slate-200">
                     <input 
                       type="text" 
                       value={chatInput} 
