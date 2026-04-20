@@ -28,9 +28,9 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       useAuthStore.getState().logout();
       
-      // Redirect to home page
+      // Trigger global Login Modal instead of silent redirect
       if (typeof window !== 'undefined') {
-        window.location.href = '/'; 
+        useAuthStore.getState().setAuthModalOpen(true);
       }
     }
     return Promise.reject(error);

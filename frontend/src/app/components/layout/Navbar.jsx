@@ -19,11 +19,11 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   
   const pathname = usePathname();
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { isAuthenticated, user, logout, isAuthModalOpen, setAuthModalOpen } = useAuthStore();
 
-  const openLogin = () => setModalConfig({ isOpen: true, view: 'login' });
-  const openRegister = () => setModalConfig({ isOpen: true, view: 'register' });
-  const closeModal = () => setModalConfig({ ...modalConfig, isOpen: false });
+  const openLogin = () => setAuthModalOpen(true);
+  const openRegister = () => setAuthModalOpen(true);
+  const closeModal = () => setAuthModalOpen(false);
 
   // Scroll effect for dynamic transparent/solid navbar
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function Navbar() {
         })}
       </div>
 
-      <AuthModal isOpen={modalConfig.isOpen} initialView={modalConfig.view} onClose={closeModal} />
+      <AuthModal isOpen={isAuthModalOpen} initialView="login" onClose={closeModal} />
     </>
   );
 }

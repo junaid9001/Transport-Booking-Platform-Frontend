@@ -20,6 +20,10 @@ export const useAuthStore = create(
         token: null,
         isAuthenticated: false,
       }),
+
+      // Global UI state for Login Modal
+      isAuthModalOpen: false,
+      setAuthModalOpen: (isOpen) => set({ isAuthModalOpen: isOpen }),
     }),
     {
       name: 'tripneo-auth', 

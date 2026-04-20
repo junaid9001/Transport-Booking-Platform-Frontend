@@ -62,6 +62,12 @@ export default function PassengerDetailsPage() {
       return;
     }
 
+    const { isAuthenticated, setAuthModalOpen } = useAuthStore.getState();
+    if (!isAuthenticated) {
+      setAuthModalOpen(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -136,12 +142,12 @@ export default function PassengerDetailsPage() {
       <div className="w-full lg:w-[60%] space-y-20">
         
         <section className="space-y-6">
-          <span className="text-secondary font-label text-xs font-bold uppercase tracking-[0.4em] block">Step 04 — Traveler Identity</span>
+          <span className="text-secondary font-label text-xs font-bold uppercase tracking-[0.4em] block">Step 04 — Traveler Information</span>
           <h1 className="text-5xl md:text-7xl font-headline font-normal tracking-tight text-primary leading-tight">
-            The Final <span className="italic font-light">Details.</span>
+            Who is <span className="italic font-light">traveling?</span>
           </h1>
           <p className="text-on-surface-variant text-lg font-light max-w-xl">
-            Ensure all information matches your official travel documents to maintain a seamless transition across global boundaries.
+            Please enter passenger names exactly as they appear on passports or official travel documents to ensure a smooth journey.
           </p>
         </section>
 
@@ -249,7 +255,7 @@ export default function PassengerDetailsPage() {
             disabled={loading}
             className={`group w-full md:w-auto bg-primary text-white px-20 py-6 font-label text-xs font-black uppercase tracking-[0.4em] hover:bg-secondary hover:text-on-secondary-fixed-variant transition-all duration-500 flex items-center justify-center gap-4 ${loading ? 'opacity-50 cursor-wait' : ''}`}
           >
-            {loading ? "Locking Itinerary..." : "Confirm All Details"}
+            {loading ? "Preparing your booking..." : "Confirm All Details"}
             {!loading && <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">east</span>}
           </button>
         </form>
@@ -258,7 +264,7 @@ export default function PassengerDetailsPage() {
       <aside className="w-full lg:w-[40%]">
         <div className="sticky top-32 space-y-10">
           <div className="bg-surface-container-low p-10 editorial-shadow space-y-10">
-            <h3 className="font-headline text-3xl">Orchestration Summary</h3>
+            <h3 className="font-headline text-3xl">Booking Summary</h3>
             
             <div className="space-y-8">
               <div className="flex justify-between items-start">
@@ -317,7 +323,7 @@ export default function PassengerDetailsPage() {
               <p className="text-[11px] uppercase tracking-widest font-bold text-primary">Travel Assurance</p>
             </div>
             <p className="text-xs text-on-surface-variant leading-relaxed font-light">
-              Your booking is protected by our global fulfillment engine. Seats are held for a limited duration during this orchestration phase.
+              Your booking is protected by our global fulfillment engine. Seats are held for a limited duration during this booking phase.
             </p>
           </div>
         </div>

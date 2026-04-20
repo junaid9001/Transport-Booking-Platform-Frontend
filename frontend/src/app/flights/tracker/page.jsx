@@ -107,8 +107,7 @@ export default function FlightTrackerPage() {
         </svg>
       </div>
 
-      <aside className="absolute left-10 top-1/2 -translate-y-1/2 w-96 z-40 bg-black/40 backdrop-blur-3xl border border-white/5 p-12 space-y-12 editorial-shadow">
-        
+      <aside className="absolute left-10 top-32 w-96 z-40 bg-black/40 backdrop-blur-3xl border border-white/5 p-12 space-y-12 editorial-shadow">
         <header className="space-y-4">
            <div className="flex items-center gap-4 text-secondary">
                <span className="material-symbols-outlined text-sm animate-pulse">radar</span>
@@ -123,36 +122,44 @@ export default function FlightTrackerPage() {
         </header>
 
         <nav className="space-y-8">
-           <div className="grid grid-cols-2 gap-8">
-              <div className="space-y-2">
-                 <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Latitude</p>
-                 <p className="text-2xl font-headline text-white">{telemetry.lat.toFixed(4)}°</p>
-              </div>
-              <div className="space-y-2 text-right">
-                 <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Longitude</p>
-                 <p className="text-2xl font-headline text-white">{telemetry.lng.toFixed(4)}°</p>
-              </div>
-           </div>
+               <div className="grid grid-cols-2 gap-8 tabular-nums">
+                  <div className="space-y-2">
+                     <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Latitude</p>
+                     <div className="h-8">
+                        <p className="text-2xl font-headline text-white">{telemetry.lat.toFixed(4)}°</p>
+                     </div>
+                  </div>
+                  <div className="space-y-2 text-right">
+                     <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Longitude</p>
+                     <div className="h-8">
+                        <p className="text-2xl font-headline text-white">{telemetry.lng.toFixed(4)}°</p>
+                     </div>
+                  </div>
+               </div>
 
-           <div className="space-y-6 pt-8 border-t border-white/5">
-              <div className="flex justify-between items-end">
-                  <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Vertical Velocity</p>
-                  <p className="text-4xl font-headline text-white tracking-tighter">{telemetry.vel} <span className="text-xs font-light text-outline">KM/H</span></p>
-              </div>
-              <div className="h-1 w-full bg-white/5 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 h-full bg-secondary transition-all duration-1000" style={{ width: `${(telemetry.vel / 1000) * 100}%` }}></div>
-              </div>
-           </div>
+               <div className="space-y-6 pt-8 border-t border-white/5 tabular-nums">
+                  <div className="flex justify-between items-end">
+                      <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Vertical Velocity</p>
+                      <div className="h-10 flex items-end">
+                        <p className="text-4xl font-headline text-white tracking-tighter">{Math.round(telemetry.vel)} <span className="text-xs font-light text-outline">KM/H</span></p>
+                      </div>
+                  </div>
+                  <div className="h-1 w-full bg-white/5 relative overflow-hidden">
+                      <div className="absolute top-0 left-0 h-full bg-secondary transition-all duration-1000" style={{ width: `${Math.min(100, (telemetry.vel / 1000) * 100)}%` }}></div>
+                  </div>
+               </div>
 
-           <div className="space-y-6">
-              <div className="flex justify-between items-end">
-                  <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Geometric Altitude</p>
-                  <p className="text-4xl font-headline text-white tracking-tighter">{telemetry.alt.toLocaleString()} <span className="text-xs font-light text-outline">M</span></p>
-              </div>
-              <div className="h-1 w-full bg-white/5 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 h-full bg-white/40 transition-all duration-1000" style={{ width: `${(telemetry.alt / 12000) * 100}%` }}></div>
-              </div>
-           </div>
+               <div className="space-y-6 tabular-nums">
+                  <div className="flex justify-between items-end">
+                      <p className="text-outline font-label text-[9px] uppercase tracking-[0.3em] font-black">Geometric Altitude</p>
+                      <div className="h-10 flex items-end">
+                        <p className="text-4xl font-headline text-white tracking-tighter">{Math.round(telemetry.alt).toLocaleString()} <span className="text-xs font-light text-outline">M</span></p>
+                      </div>
+                  </div>
+                  <div className="h-1 w-full bg-white/5 relative overflow-hidden">
+                      <div className="absolute top-0 left-0 h-full bg-white/40 transition-all duration-1000" style={{ width: `${Math.min(100, (telemetry.alt / 12000) * 100)}%` }}></div>
+                  </div>
+               </div>
         </nav>
 
         <footer className="pt-12 border-t border-white/5">

@@ -75,7 +75,7 @@ export default function SeatSelectionPage() {
           onClick={() => router.push('/flights')} 
           className="border border-primary text-primary px-10 py-4 font-label text-xs font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-white transition-all"
         >
-          Return to Gateways
+          Return to Search
         </button>
       </main>
     );
@@ -111,9 +111,9 @@ export default function SeatSelectionPage() {
         
         <div className="flex-grow">
           <header className="mb-16">
-            <span className="text-secondary font-label text-xs font-bold uppercase tracking-[0.4em] block mb-6">Step 03 — Seat Selection</span>
+            <span className="text-secondary font-label text-xs font-bold uppercase tracking-[0.4em] block mb-6">Step 03 — Select Seats</span>
             <h1 className="font-headline text-5xl tracking-tight text-primary leading-tight mb-8">
-              Map Your <span className="italic font-light">Sanctuary.</span>
+              Select Your <span className="italic font-light">Seat.</span>
             </h1>
             <div className="p-6 bg-surface-container-low border border-outline-variant/10 flex items-center gap-8 text-sm font-light text-on-surface-variant">
                <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export default function SeatSelectionPage() {
           </header>
 
           {loading ? (
-             <div className="py-20 text-center text-outline-variant font-label tracking-widest uppercase text-xs">Projecting Cabin Layout...</div>
+             <div className="py-20 text-center text-outline-variant font-label tracking-widest uppercase text-xs">Loading Cabin Map...</div>
           ) : (
             <div className="bg-surface-container-lowest p-12 editorial-shadow border border-outline-variant/5 rounded-t-[100px] flex flex-col items-center">
               <div className="w-24 h-4 bg-outline-variant/10 rounded-full mb-12"></div>
@@ -230,7 +230,7 @@ export default function SeatSelectionPage() {
             <div className="border border-outline-variant/10 p-8 flex items-start gap-4">
                <span className="material-symbols-outlined text-secondary">info</span>
                <p className="text-[11px] leading-relaxed text-on-surface-variant font-light">
-                 Seats are held for 10 minutes from the time of selection. Please complete your registration to finalize the orchestration.
+                 Seats are held for 10 minutes from the time of selection. Please complete your registration to finalize the booking.
                </p>
             </div>
           </div>

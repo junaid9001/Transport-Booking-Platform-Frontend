@@ -176,8 +176,8 @@ export default function FlightResultsPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-5">
                   <span className="text-secondary text-[9px] font-bold uppercase tracking-wider">Featured</span>
-                  <h4 className="text-white font-headline text-lg mt-1">Sky Residence</h4>
-                  <p className="text-white/50 text-xs mt-1">Experience lie-flat luxury</p>
+                  <h4 className="text-white font-headline text-lg mt-1">Premium Cabin Upgrade</h4>
+                  <p className="text-white/50 text-xs mt-1">Experience world-class comfort</p>
                 </div>
               </div>
             </div>

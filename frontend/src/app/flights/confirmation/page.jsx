@@ -32,11 +32,11 @@ export default function ConfirmationPage() {
     router.push('/flights');
   };
 
-  if (!activeBooking) {
+  if (!activeBooking || !selectedFlight) {
     return (
       <main className="pt-32 px-6 md:px-12 max-w-[900px] mx-auto text-center">
         <h1 className="text-4xl font-headline text-primary mb-6">Reservation Not Found</h1>
-        <p className="text-on-surface-variant mb-12 font-light">We were unable to locate an active orchestration session.</p>
+        <p className="text-on-surface-variant mb-12 font-light">We were unable to locate an active booking session.</p>
         <button onClick={() => router.push('/flights')} className="bg-primary text-white px-10 py-4 font-label text-xs uppercase tracking-widest">
           Start New Search
         </button>
@@ -58,13 +58,13 @@ export default function ConfirmationPage() {
             <div className="w-14 h-14 bg-secondary/10 flex items-center justify-center">
               <span className="material-symbols-outlined text-secondary text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
             </div>
-            <span className="font-label text-[10px] uppercase tracking-[0.4em] font-black text-secondary">Orchestration Confirmed</span>
+            <span className="font-label text-[10px] uppercase tracking-[0.4em] font-black text-secondary">Reservation Confirmed</span>
           </div>
           <h1 className="font-headline text-5xl md:text-7xl tracking-tight text-primary leading-tight">
             Safe Travels,<br /><span className="italic font-light">{primaryPassenger.first_name}.</span>
           </h1>
           <p className="font-body text-on-surface-variant max-w-xl text-lg font-light leading-relaxed">
-            Your reservation is confirmed within the global gateway. A confirmation has been dispatched to{' '}
+            Your reservation is successfully confirmed. A confirmation has been dispatched to{' '}
             <span className="font-semibold text-primary">{user?.email || 'your registered email'}</span>.
           </p>
 
@@ -94,7 +94,7 @@ export default function ConfirmationPage() {
               </button>
             )}
             <button
-              onClick={() => router.push('/flights/tracker')}
+              onClick={() => router.push(`/flights/status/${activeBooking.pnr}`)}
               className="flex items-center gap-3 border border-primary/20 text-primary px-10 py-5 font-label text-[9px] uppercase tracking-[0.3em] font-black hover:bg-primary/5 transition-all"
             >
               <span className="material-symbols-outlined text-lg">radar</span>
@@ -129,10 +129,9 @@ export default function ConfirmationPage() {
         </div>
       </section>
 
-      {selectedFlight && (
         <section className="mb-20">
           <div className="flex items-end justify-between border-b border-outline-variant/10 pb-6 mb-10">
-            <h2 className="text-3xl font-headline text-primary">Journey Summary</h2>
+            <h2 className="text-3xl font-headline text-primary">Trip Summary</h2>
           </div>
           <div className="bg-surface-container-low p-10 md:p-16 border border-outline-variant/5 editorial-shadow relative overflow-hidden">
             <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-secondary/5 to-transparent pointer-events-none"></div>
@@ -140,7 +139,7 @@ export default function ConfirmationPage() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-16">
               <div className="text-center md:text-left">
                 <div className="font-headline text-6xl text-primary leading-none tracking-tighter mb-3">{selectedFlight?.origin}</div>
-                <div className="font-label text-[9px] uppercase tracking-[0.4em] text-outline font-black">Departure Gateway</div>
+                <div className="font-label text-[9px] uppercase tracking-[0.4em] text-outline font-black">Departure</div>
               </div>
               <div className="flex-grow w-full max-w-xs relative flex items-center justify-center opacity-20">
                 <div className="w-full h-px border-t border-dashed border-primary"></div>
@@ -148,13 +147,13 @@ export default function ConfirmationPage() {
               </div>
               <div className="text-center md:text-right">
                 <div className="font-headline text-6xl text-primary leading-none tracking-tighter mb-3">{selectedFlight?.destination}</div>
-                <div className="font-label text-[9px] uppercase tracking-[0.4em] text-outline font-black">Arrival Terminal</div>
+                <div className="font-label text-[9px] uppercase tracking-[0.4em] text-outline font-black">Arrival</div>
               </div>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pt-10 border-t border-outline-variant/10">
               <div>
-                <span className="font-label text-[9px] uppercase tracking-[0.3em] text-outline block mb-2 font-black">Designation</span>
+                <span className="font-label text-[9px] uppercase tracking-[0.3em] text-outline block mb-2 font-black">Flight Number</span>
                 <span className="font-headline text-2xl text-primary uppercase">{selectedFlight?.flight_number}</span>
               </div>
               <div>
@@ -172,12 +171,11 @@ export default function ConfirmationPage() {
             </div>
           </div>
         </section>
-      )}
 
       <section>
         <div className="flex items-end justify-between border-b border-outline-variant/10 pb-6 mb-10">
-          <h2 className="text-3xl font-headline text-primary">Traveler Manifest</h2>
-          <span className="font-label text-[9px] uppercase tracking-[0.4em] text-outline font-black">{activeBooking.passengers?.length} Confirmed</span>
+          <h2 className="text-3xl font-headline text-primary">Traveler Details</h2>
+          <span className="font-label text-[9px] uppercase tracking-[0.4em] text-outline font-black">{activeBooking.passengers?.length} Traveler{activeBooking.passengers?.length !== 1 ? 's' : ''}</span>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

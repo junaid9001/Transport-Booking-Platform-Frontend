@@ -71,7 +71,7 @@ export default function FareSelectionPage() {
           onClick={() => router.push('/flights')} 
           className="border border-primary text-primary px-10 py-4 font-label text-xs font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-white transition-all"
         >
-          Return to Gateways
+          Return to Search
         </button>
       </main>
     );
@@ -102,7 +102,7 @@ export default function FareSelectionPage() {
     <main className="pt-24 md:pt-40 pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
       
       <header className="mb-16 max-w-4xl">
-        <span className="text-secondary font-label text-[10px] font-black uppercase tracking-[0.4em] block mb-6">Step 02 — Fare Orchestration</span>
+        <span className="text-secondary font-label text-[10px] font-black uppercase tracking-[0.4em] block mb-6">Step 02 — Select Fare</span>
         <h1 className="font-headline text-5xl md:text-7xl tracking-tight text-primary leading-tight">
           Choose Your <span className="italic font-light">Experience.</span>
         </h1>
@@ -153,7 +153,7 @@ export default function FareSelectionPage() {
       {loading ? (
         <div className="py-20 flex flex-col items-center gap-4">
           <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-          <p className="text-[11px] font-label text-outline uppercase tracking-[0.3em]">Synchronizing fare records...</p>
+          <p className="text-[11px] font-label text-outline uppercase tracking-[0.3em]">Fetching latest fares...</p>
         </div>
       ) : fares.length === 0 ? (
         <div className="bg-surface-container-low p-12 text-center border border-outline-variant/10">
@@ -171,7 +171,7 @@ export default function FareSelectionPage() {
               >
                 {isRecommended && (
                   <div className="bg-secondary text-primary px-6 py-2 font-label text-[9px] font-black uppercase tracking-[0.3em] text-center">
-                    Recommended Experience
+                    Best Value
                   </div>
                 )}
                 

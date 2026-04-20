@@ -17,18 +17,22 @@ export function useFlightSocket(userId, onMessage) {
 
     const wsUrl = `ws://localhost:8080/api/flights/ws?userId=${userId}`;
     let socket;
+    let reconnectTimeout;
 
-    try {
+    const connect = () => {
+      console.log(`[WS] Connecting to ${wsUrl}...`);
       socket = new WebSocket(wsUrl);
       socketRef.current = socket;
 
       socket.onopen = () => {
+        console.log('[WS] Connection established');
         setIsConnected(true);
       };
 
       socket.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
+          console.log('[WS RECV]', data);
           if (onMessageRef.current) {
             onMessageRef.current(data);
           }
@@ -41,16 +45,20 @@ export function useFlightSocket(userId, onMessage) {
         console.error('[WS] Error:', error);
       };
 
-      socket.onclose = () => {
+      socket.onclose = (event) => {
+        console.warn(`[WS] Connection closed (code: ${event.code}). Retrying in 3s...`);
         setIsConnected(false);
+        reconnectTimeout = setTimeout(connect, 3000);
       };
+    };
 
-    } catch (err) {
-      console.error('[WS] Connection failed:', err);
-    }
+    connect();
 
     return () => {
+      clearTimeout(reconnectTimeout);
       if (socket) {
+        // Remove onclose handler to prevent infinite retry when unmounting
+        socket.onclose = null;
         socket.close();
       }
     };

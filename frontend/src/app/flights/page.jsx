@@ -114,7 +114,7 @@ export default function FlightSearchPage() {
         <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 md:px-12 pb-10 md:pb-16">
           <div className="mb-10 md:mb-14">
             <p className="font-label text-[10px] text-secondary font-bold uppercase tracking-[0.4em] mb-4">
-              Tripneo · Digital Concierge
+              Tripneo · Premium Travel
             </p>
             <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl text-white tracking-tight leading-[1.05]">
               Where will you<br />
@@ -246,7 +246,7 @@ export default function FlightSearchPage() {
       <section className="py-20 md:py-28 px-6 md:px-12 max-w-[1280px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-14">
           <div>
-            <span className="text-secondary font-label text-[10px] font-bold uppercase tracking-[0.3em] block mb-3">Curated Destinations</span>
+            <span className="text-secondary font-label text-[10px] font-bold uppercase tracking-[0.3em] block mb-3">Popular Destinations</span>
             <h2 className="font-headline text-3xl md:text-4xl text-primary">Explore the world with Tripneo</h2>
           </div>
           <button className="text-primary font-label text-xs font-semibold flex items-center gap-1.5 group border-b border-primary/20 pb-0.5 hover:border-primary transition-colors">
@@ -288,14 +288,14 @@ export default function FlightSearchPage() {
         <div className="max-w-[1280px] mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
             <span className="font-label text-secondary font-bold text-[10px] uppercase tracking-[0.4em] mb-3 block">Why Tripneo</span>
-            <h2 className="font-headline text-3xl md:text-4xl">Premium travel, simplified</h2>
+            <h2 className="font-headline text-3xl md:text-4xl">Seamless flight booking</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {[
-              { icon: 'restaurant', title: 'Curated Dining', desc: 'Michelin-standard menus adapted for in-flight, featuring seasonal ingredients from your route\u2019s regions.' },
+              { icon: 'restaurant', title: 'Gourmet Meals', desc: 'Premium menus adapted for in-flight, featuring seasonal ingredients from your route\u2019s regions.' },
               { icon: 'bed', title: 'Lie-Flat Suites', desc: 'Private suites with Italian linens, acoustic isolation, and intuitive wellness lighting systems.' },
-              { icon: 'shield', title: 'Secure Booking', desc: 'End-to-end encrypted transactions with real-time seat locking and instant PNR confirmation.' },
+              { icon: 'shield', title: 'Secure Booking', desc: 'End-to-end encrypted transactions with real-time seat locking and instant confirmation.' },
             ].map((f) => (
               <div key={f.title} className="text-center md:text-left">
                 <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-5 mx-auto md:mx-0">
