@@ -43,8 +43,9 @@ export default function ChatWidget() {
     // 1. Fetch History via REST first
     const fetchHistory = async () => {
         setIsLoadingHistory(true);
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
         try {
-            const res = await fetch(`http://localhost:8080/api/chat/messages?token=${token}`, {
+            const res = await fetch(`${baseUrl}/chat/messages?token=${token}`, {
                 credentials: "include" 
             });
             
@@ -68,7 +69,19 @@ export default function ChatWidget() {
 
     fetchHistory().then(() => {
         // 2. Open Websocket Connection after history is loaded
-        const wsUrl = `ws://localhost:8080/api/chat/ws?token=${token}`;
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+        const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        
+        // Derive WS host from API URL
+        let wsHost = 'localhost:8080/api';
+        try {
+            const url = new URL(baseUrl);
+            wsHost = url.host + url.pathname;
+        } catch (e) {
+            // fallback
+        }
+
+        const wsUrl = `${wsProtocol}//${wsHost}/chat/ws?token=${token}`;
         const socket = new WebSocket(wsUrl);
         socketRef.current = socket;
 
