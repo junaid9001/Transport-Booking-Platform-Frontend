@@ -67,8 +67,7 @@ export default function TicketDetailPage() {
     </div>
   );
 
-  const flight = booking.flight_instance?.flight || {};
-  const flightDate = new Date(booking.flight_instance?.departure_time);
+  const flightDate = new Date(booking.departure_time);
   const bookingStatus = booking.status || 'PENDING';
   const normalizedBookingStatus = bookingStatus.toUpperCase();
   const pnr = booking.pnr || 'PENDING';
@@ -164,14 +163,14 @@ export default function TicketDetailPage() {
                             </div>
                             <div className="text-right">
                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Flight No</p>
-                                <p className="font-black text-slate-900">{flight.flight_number || 'TBA'}</p>
+                                <p className="font-black text-slate-900">{booking.flight_number || 'TBA'}</p>
                             </div>
                         </div>
 
                         <div className="flex items-center justify-between gap-6 mb-10">
                             <div className="flex-1">
-                                <p className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-1">{flight.origin}</p>
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest truncate">{flight.origin_city || 'Origin'}</p>
+                                <p className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-1">{booking.origin}</p>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest truncate">{booking.origin_city || 'Origin'}</p>
                             </div>
                             <div className="flex flex-col items-center gap-2 px-4 opacity-30">
                                 <Plane className="text-emerald-500 rotate-90" size={20} />
@@ -181,8 +180,8 @@ export default function TicketDetailPage() {
                                 </div>
                             </div>
                             <div className="flex-1 text-right">
-                                <p className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-1">{flight.destination}</p>
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest truncate">{flight.destination_city || 'Destination'}</p>
+                                <p className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-1">{booking.destination}</p>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest truncate">{booking.destination_city || 'Destination'}</p>
                             </div>
                         </div>
 
@@ -223,12 +222,17 @@ export default function TicketDetailPage() {
                             </div>
                             <div className="pt-6 border-t border-slate-700/50">
                                 <div className="flex justify-center bg-white p-2 rounded-lg mb-2">
-                                    <img 
-                                        src={booking.qr_code_url || `http://localhost:8080/api/qr/generate?data=${pnr}-${passenger.seat_number}`} 
-                                        alt="QR Code" 
-                                        className="w-20 h-20 object-contain"
-                                        onError={(e) => e.target.style.display = 'none'}
-                                    />
+                                    {booking.qr_code_url ? (
+                                        <img 
+                                            src={booking.qr_code_url} 
+                                            alt="QR Code" 
+                                            className="w-20 h-20 object-contain"
+                                        />
+                                    ) : (
+                                        <div className="w-20 h-20 bg-slate-800 flex items-center justify-center rounded">
+                                            <span className="text-[8px] text-slate-500 uppercase tracking-tighter">QR Pending</span>
+                                        </div>
+                                    )}
                                 </div>
                                 <p className="text-center text-[10px] mt-2 font-mono text-slate-500 uppercase tracking-[0.1em]">
                                     {`${booking.id?.split('-')[0] || 'VOID'}-${pnr}`}

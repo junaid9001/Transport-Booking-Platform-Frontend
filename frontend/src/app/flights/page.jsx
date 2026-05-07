@@ -53,8 +53,8 @@ export default function FlightSearchPage() {
     }
 
     setSearchQuery({
-      origin: origin.toUpperCase(),
-      destination: destination.toUpperCase(),
+      origin: origin.slice(0, 3).toUpperCase(),
+      destination: destination.slice(0, 3).toUpperCase(),
       departureDate,
       date: departureDate,
       adults,
@@ -64,8 +64,11 @@ export default function FlightSearchPage() {
       tripType: 'one_way',
     });
 
+    const originCode = origin.slice(0, 3).toUpperCase();
+    const destCode = destination.slice(0, 3).toUpperCase();
+
     router.push(
-      `/flights/results?origin=${origin.toUpperCase()}&destination=${destination.toUpperCase()}&adults=${adults}&children=${children}&infants=${infants}&class=${cabinClass}&date=${departureDate}`
+      `/flights/results?origin=${originCode}&destination=${destCode}&adults=${adults}&children=${children}&infants=${infants}&class=${cabinClass}&date=${departureDate}`
     );
   };
 
@@ -139,9 +142,8 @@ export default function FlightSearchPage() {
                   type="text"
                   placeholder="City or airport"
                   value={origin}
-                  onChange={(e) => setOrigin(e.target.value.toUpperCase())}
+                  onChange={(e) => setOrigin(e.target.value)}
                   className="w-full bg-transparent border-none p-0 text-primary font-headline text-lg placeholder:text-outline-variant/60 focus:ring-0 focus:outline-none uppercase"
-                  maxLength={3}
                 />
               </div>
 
@@ -159,9 +161,8 @@ export default function FlightSearchPage() {
                   type="text"
                   placeholder="City or airport"
                   value={destination}
-                  onChange={(e) => setDestination(e.target.value.toUpperCase())}
+                  onChange={(e) => setDestination(e.target.value)}
                   className="w-full bg-transparent border-none p-0 text-primary font-headline text-lg placeholder:text-outline-variant/60 focus:ring-0 focus:outline-none uppercase"
-                  maxLength={3}
                 />
               </div>
 

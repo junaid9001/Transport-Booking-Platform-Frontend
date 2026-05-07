@@ -99,7 +99,9 @@ export default function SeatSelectionPage() {
         title={isWrongClass ? `Requires ${seat.seat_class} fare` : ''}
         className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-[10px] font-bold transition-all duration-300 rounded-sm relative group ${
           isDisabled
-            ? 'bg-outline-variant/10 text-outline/20 cursor-not-allowed'
+            ? isWrongClass 
+              ? 'bg-outline-variant/5 text-outline/20 cursor-not-allowed grayscale' 
+              : 'bg-outline-variant/10 text-outline/20 cursor-not-allowed'
             : isSelected
               ? 'bg-secondary text-on-secondary shadow-lg shadow-secondary/20 z-10'
               : 'bg-surface-container-low border border-outline-variant/20 hover:border-secondary text-primary'
@@ -123,7 +125,7 @@ export default function SeatSelectionPage() {
             <h1 className="font-headline text-5xl tracking-tight text-primary leading-tight mb-8">
               Select Your <span className="italic font-light">Seat.</span>
             </h1>
-            <div className="p-6 bg-surface-container-low border border-outline-variant/10 flex items-center gap-8 text-sm font-light text-on-surface-variant">
+            <div className="p-6 bg-surface-container-low border border-outline-variant/10 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm font-light text-on-surface-variant">
                <div className="flex items-center gap-2">
                  <div className="w-3 h-3 bg-surface-container-low border border-outline-variant/20"></div>
                  <span>Available</span>
@@ -131,6 +133,10 @@ export default function SeatSelectionPage() {
                <div className="flex items-center gap-2">
                  <div className="w-3 h-3 bg-outline-variant/10"></div>
                  <span>Occupied</span>
+               </div>
+               <div className="flex items-center gap-2">
+                 <div className="w-3 h-3 bg-outline-variant/5 grayscale"></div>
+                 <span>Other Class</span>
                </div>
                <div className="flex items-center gap-2">
                  <div className="w-3 h-3 bg-secondary"></div>
@@ -141,6 +147,16 @@ export default function SeatSelectionPage() {
                  <span>Premium</span>
                </div>
             </div>
+
+            {/* Class Mismatch Banner */}
+            {allSeats.some(s => s.seat_class?.toUpperCase() !== fareClass) && (
+              <div className="mt-4 p-4 bg-primary/5 border-l-4 border-primary flex items-center gap-3">
+                <span className="material-symbols-outlined text-primary text-sm">info</span>
+                <p className="text-[11px] text-primary/80 font-medium">
+                  Your <span className="font-bold">{fareClass}</span> fare only allows seat selection in the corresponding cabin. Other seats are disabled.
+                </p>
+              </div>
+            )}
           </header>
 
           {loading ? (

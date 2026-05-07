@@ -20,6 +20,7 @@ export default function FlightForm({ initialData = {}, onSubmit, onCancel, submi
 
   const [airlines, setAirlines] = useState([]);
   const [airports, setAirports] = useState([]);
+  const [aircraftTypes, setAircraftTypes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [errors, setErrors] = useState({});
 
@@ -29,12 +30,14 @@ export default function FlightForm({ initialData = {}, onSubmit, onCancel, submi
 
   const loadDropdowns = async () => {
     try {
-      const [airlineData, airportData] = await Promise.all([
+      const [airlineData, airportData, aircraftData] = await Promise.all([
         flightApi.getAirlines(),
-        flightApi.searchAirports('')
+        flightApi.searchAirports(''),
+        flightApi.getAircraftTypes(),
       ]);
       setAirlines(airlineData);
       setAirports(airportData);
+      setAircraftTypes(aircraftData);
     } catch (error) {
       console.error("Failed to load dropdowns:", error);
     }
@@ -179,17 +182,18 @@ export default function FlightForm({ initialData = {}, onSubmit, onCancel, submi
             />
           </div>
 
-          {/* Aircraft Type ID - Hardcoded fallback since no List endpoint */}
+          {/* Aircraft Type */}
           <div className="col-span-2 space-y-1.5">
-            <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Aircraft Type ID (UUID)</label>
-            <input
+            <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Aircraft Type</label>
+            <select
               required
-              type="text"
               value={formData.aircraft_type_id}
               onChange={(e) => setFormData({...formData, aircraft_type_id: e.target.value})}
-              placeholder="Paste Aircraft Type UUID (e.g. from Seeder)"
-              className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:bg-white transition-all font-mono text-xs font-bold text-slate-700"
-            />
+              className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:bg-white transition-all font-bold text-slate-700"
+            >
+              <option value="">Select Aircraft Type</option>
+              {aircraftTypes.map(a => <option key={a.id} value={a.id}>{a.manufacturer} {a.model}</option>)}
+            </select>
           </div>
 
           {/* Days of week */}

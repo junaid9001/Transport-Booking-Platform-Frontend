@@ -35,6 +35,11 @@ export const flightApi = {
     return toSnakeCase(data?.data || []);
   },
 
+  getAircraftTypes: async () => {
+    const { data } = await api.get('/flights/aircraft-types');
+    return toSnakeCase(data?.data || []);
+  },
+
   getFlightDetails: async (instanceId) => {
     const { data } = await api.get(`/flights/${instanceId}`);
     return toSnakeCase(data?.data || data);
@@ -113,6 +118,11 @@ export const flightApi = {
       return toSnakeCase(data);
     },
 
+    getAllFlightTemplates: async () => {
+      const { data } = await api.get('/flights/admin/flights');
+      return toSnakeCase(data?.flights || []);
+    },
+
     createFlight: async (flightData) => {
       const { data } = await api.post('/flights/admin/flights', flightData);
       return toSnakeCase(data);
@@ -135,5 +145,11 @@ export const flightApi = {
       });
       return toSnakeCase(data);
     },
+
+    cancelFlightInstance: async (instanceId, reason) => {
+      const { data } = await api.put(`/flights/admin/instances/${instanceId}/cancel`, { reason });
+      return toSnakeCase(data);
+    },
   },
 };
+

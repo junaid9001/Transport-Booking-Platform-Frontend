@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { flightApi } from '@/lib/flightApi';
 import FlightBookingList from './components/FlightBookingList';
 import FlightForm from './components/FlightForm';
+import FlightTemplateList from './components/FlightTemplateList';
 import GenericFlightList from './components/GenericFlightList';
 
 export default function FlightManagement() {
@@ -86,26 +87,7 @@ export default function FlightManagement() {
         {activeTab === 'bookings' && <FlightBookingList />}
         {(activeTab === 'airports' || activeTab === 'airlines') && <GenericFlightList type={activeTab} />}
         
-        {activeTab === 'flights' && (
-          <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden min-h-[500px] flex flex-col items-center justify-center text-center p-12">
-            <div className="w-24 h-24 bg-slate-50 rounded-[32px] flex items-center justify-center mb-6 border border-slate-100 shadow-inner">
-              <Plane size={40} className="text-slate-300" />
-            </div>
-            <h3 className="text-2xl font-black text-slate-800 tracking-tight mb-2">
-              Template Management
-            </h3>
-            <p className="text-slate-400 font-medium max-w-sm leading-relaxed mb-8">
-              Create recurring flight templates that will automatically generate daily instances for booking.
-            </p>
-            <button 
-              onClick={() => setShowForm(true)}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 px-10 rounded-[20px] shadow-xl shadow-emerald-600/20 transition-all flex items-center gap-2"
-            >
-              <Plus size={20} />
-              Add Your First Template
-            </button>
-          </div>
-        )}
+        {activeTab === 'flights' && <FlightTemplateList />}
       </div>
 
       {/* Modals */}
